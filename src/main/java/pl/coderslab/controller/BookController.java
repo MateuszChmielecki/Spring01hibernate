@@ -2,6 +2,7 @@ package pl.coderslab.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -11,6 +12,8 @@ import pl.coderslab.dao.PublisherDao;
 import pl.coderslab.entity.Author;
 import pl.coderslab.entity.Book;
 import pl.coderslab.entity.Publisher;
+
+import java.util.List;
 
 @Controller
 public class BookController {
@@ -60,10 +63,52 @@ public class BookController {
     }
 
     @RequestMapping("/book/delete/{id}")
-    @ResponseBody
     public String deleteBook(@PathVariable long id) {
         bookDao.delete(id);
-        return "deleted";
+        return "redirect:/list-book";
     }
+
+    @RequestMapping("/book/findall")
+    @ResponseBody
+    public String findAll() {
+        List <Book> all = bookDao.findAll();
+        all.forEach(book -> System.out.println(book.getTitle()));
+        return "book list";
+    }
+    @RequestMapping("/book/findall/{rating}")
+    @ResponseBody
+    public String findAllByRating(@PathVariable Integer rating) {
+        List <Book> all = bookDao.findAllByRating(rating);
+        all.forEach(book -> System.out.println(book.getTitle()));
+        return "book list by rating";
+    }
+
+    @RequestMapping("/book/findallwithpublisher")
+    @ResponseBody
+    public String findAllWithPublisher() {
+        List<Book> all = bookDao.findBookWithPublisher();
+        all.forEach(book -> System.out.println(book.getTitle()));
+        return "book list with publisher";
+    }
+
+    @RequestMapping("/book/findallbypublisher/{id}")
+    @ResponseBody
+    public String findAllByPublisher(@PathVariable String id) {
+
+        List<Book> all = bookDao.findBooksWithPublishers(publisherDao.findById(Long.parseLong(id)));
+        all.forEach(book -> System.out.println(book.getTitle()));
+        return "book list with publisher" + publisherDao.findById(Long.parseLong(id));
+    }
+
+    @RequestMapping("/book/findallbyauthor/{id}")
+    @ResponseBody
+    public String findAllByAuthor(@PathVariable String id) {
+
+        List<Book> all = bookDao.findBooksWithAuthor(authorDao.findById(Long.parseLong(id)));
+        all.forEach(book -> System.out.println(book.getTitle()));
+        return "book list with publisher" + authorDao.findById(Long.parseLong(id));
+    }
+
+
 
 }

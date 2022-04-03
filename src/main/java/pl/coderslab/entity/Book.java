@@ -15,7 +15,7 @@ public class Book {
     private String description;
     @ManyToOne
     private Publisher publisher;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Author> authors = new ArrayList<>();
 
     public List<Author> getAuthors() {
@@ -76,6 +76,8 @@ public class Book {
                 ", title='" + title + '\'' +
                 ", rating=" + rating +
                 ", description='" + description + '\'' +
+                ", publisher=" + publisher +
+                ", authors=" + authors +
                 '}';
     }
 }
