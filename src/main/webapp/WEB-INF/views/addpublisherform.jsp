@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="from" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: mateusz
@@ -10,11 +11,33 @@
 <html>
 <head>
     <title>Title</title>
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 <%--@elvariable id="publisher" type="pl.coderslab.entity.Publisher"--%>
 <form:form modelAttribute="publisher" method="post">
-    Name: <form:input path="name"/>
+
+    Name:
+    <form:input path="name"/>
+    <form:errors path="name" cssClass="error"/>
+    <br>
+
+
+    NIP:
+    <from:input path="nip"/>
+    <form:errors path="nip" cssClass="error"/>
+    <br>
+
+    REGON:
+    <form:input path="regon"/>
+    <form:errors path="regon" cssClass="error"/>
+    <br>
+
+
     <input type="submit">
 </form:form>
 <a href="/list-publisher">List Publishers</a>

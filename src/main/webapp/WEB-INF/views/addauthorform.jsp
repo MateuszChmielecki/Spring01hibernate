@@ -10,12 +10,38 @@
 <html>
 <head>
     <title>Title</title>
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 <%--@elvariable id="author" type="pl.coderslab.entity.Author"--%>
 <form:form modelAttribute="author" method="post">
-    First name: <form:input path="firstName"/><br>
-    Last name: <form:input path="lastName"/><br>
+
+    First name:
+    <form:input path="firstName"/>
+    <form:errors path="firstName" cssClass="error"/>
+    <br>
+
+
+    Last name:
+    <form:input path="lastName"/>
+    <form:errors path="lastName" cssClass="error"/>
+    <br>
+
+    PESEL:
+    <form:input path="pesel"/>
+    <form:errors path="pesel" cssClass="error"/>
+    <br>
+
+    Email:
+    <form:input path="email"/>
+    <form:errors path="email" cssClass="error"/>
+    <br>
+
+
     <input type="submit">
 </form:form>
 <a href="/list-author">List Authors</a>

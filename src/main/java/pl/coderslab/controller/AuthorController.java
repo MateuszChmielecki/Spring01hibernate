@@ -2,10 +2,12 @@ package pl.coderslab.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.dao.AuthorDao;
 import pl.coderslab.entity.Author;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -76,7 +78,10 @@ public class AuthorController {
     }
 
     @RequestMapping(value = "/add-author", method = RequestMethod.POST)
-    public String saveAuthorForm(Author author, Model model){
+    public String saveAuthorForm(@Valid Author author, BindingResult result, Model model){
+        if (result.hasErrors()) {
+            return "addauthorform";
+        }
         authorDao.saveAuthor(author);
 
         return "redirect:/list-author";

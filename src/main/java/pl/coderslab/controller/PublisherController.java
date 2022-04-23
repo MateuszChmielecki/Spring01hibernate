@@ -2,11 +2,13 @@ package pl.coderslab.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.dao.PublisherDao;
 import pl.coderslab.entity.Author;
 import pl.coderslab.entity.Publisher;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -69,13 +71,17 @@ public class PublisherController {
     }
 
     @RequestMapping(value = "/add-publisher", method = RequestMethod.GET)
-    public String showPublisherForm(Model model){
+    public String showPublisherForm( Model model){
         model.addAttribute("publisher", new Publisher());
         return "addpublisherform";
     }
 
     @RequestMapping(value = "/add-publisher", method = RequestMethod.POST)
-    public String saveAuthorForm(Publisher publisher, Model model){
+    public String saveAuthorForm(@Valid Publisher publisher, BindingResult result, Model model){
+        if (result.hasErrors()) {
+            return "addpublisherform";
+        }
+
         publisherDao.savePublisher(publisher);
 
         return "redirect:/list-publisher";
